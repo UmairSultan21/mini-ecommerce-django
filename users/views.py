@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm
@@ -58,3 +59,35 @@ def login_view(request):
             return render(request, "users/login.html", {"error": "Invalid credentials"})
 
     return render(request, "users/login.html")
+
+from django.shortcuts import render
+
+def home(request):
+    return render(request, 'users/home.html')
+
+
+from .decorators import role_required
+
+@role_required(['admin'])
+def admin_dashboard(request):
+    try:
+        user_role = request.user.profile.role
+    except:
+        return HttpResponse("Profile not found")
+
+    if user_role != "admin":
+        return HttpResponse("Access Denied")
+    return render(request, 'admin/dashboard.html')
+
+@role_required(['seller'])
+def seller_dashboard(request):
+    return render(request, 'seller/dashboard.html')
+
+@role_required(['customer'])
+def customer_home(request):
+    return render(request, 'customer/home.html')
+
+@role_required(['admin', 'seller'])
+def add_product(request):
+    return render(request, 'products/add.html')
+

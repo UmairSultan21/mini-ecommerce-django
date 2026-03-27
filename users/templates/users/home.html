@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+
+<body>
+
+<div class="navbar">
+    <div class="logo">MiniShop</div>
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+        <a href="/products/">Products</a>
+        <a href="/cart/">Cart</a>
+
+        {% if user.is_authenticated %}
+
+            {% if user.profile.role == "admin" %}
+                <a href="/admin-dashboard/">Admin Panel</a>
+            {% endif %}
+
+            {% if user.profile.role == "seller" %}
+                <a href="/add-product/">Add Product</a>
+            {% endif %}
+
+            {% if user.profile.role == "customer" %}
+                <a href="/orders/">My Orders</a>
+            {% endif %}
+
+            <a href="/logout/">Logout</a>
+
+        {% else %}
+            <a href="/users/login/">Login</a>
+        {% endif %}
+
+    </div>
+</div>
+
+<!-- HERO SECTION -->
+<div class="hero">
+    <h1>Welcome to MiniShop</h1>
+    <p>Best Deals on Laptops, Mobiles & Accessories</p>
+    <button>Shop Now</button>
+</div>
+
+<!-- PRODUCTS SECTION -->
+<div class="products-section">
+    <h2>Featured Products</h2>
+
+    <div class="product-grid">
+
+        <div class="product-card">
+            <img src="{% static 'images/laptop1.jpg' %}">
+            <h3>Laptop</h3>
+            <p>$500</p>
+            <button>Add to Cart</button>
+        </div>
+
+        <div class="product-card">
+            <img src="{% static 'images/phone1.jpg' %}">
+            <h3>Smartphone</h3>
+            <p>$300</p>
+            <button>Add to Cart</button>
+        </div>
+
+        <div class="product-card">
+            <img src="{% static 'images/headphone.jpg' %}">
+            <h3>Headphones</h3>
+            <p>$50</p>
+            <button>Add to Cart</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <p>© 2026 MiniShop. All rights reserved.</p>
+</div>
+
+</body>
+</html>
